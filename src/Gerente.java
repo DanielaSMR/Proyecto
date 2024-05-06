@@ -1,4 +1,4 @@
-public class Gerente extends Empleado{
+public class Gerente extends Empleado implements Serializable{
     private String departamento;
     private int nivelJerarquico;
 
@@ -6,7 +6,7 @@ public class Gerente extends Empleado{
         super();
     }
 
-    public Gerente(String nombre,String apellido,int id,int salario,String departamento,int nivelJerarquico){
+    public Gerente(String nombre,String apellido,String id,int salario,String departamento,int nivelJerarquico){
         super(nombre, apellido,id,salario);
         this.departamento = departamento;
         this.nivelJerarquico = nivelJerarquico;

@@ -1,14 +1,14 @@
-public abstract class Empleado implements Presentaciones {
+public abstract class Empleado implements Prestaciones,Serializable {
     private String nombre;
     private String apellido;
-    private Integer id;
+    private String id;
     private Integer salario;
 
     public Empleado() {
 
     }
 
-    public Empleado(String nombre, String apellido, Integer id, Integer salario) {
+    public Empleado(String nombre, String apellido, String id, Integer salario) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.id = id;
@@ -45,11 +45,11 @@ public abstract class Empleado implements Presentaciones {
         this.apellido = apellido;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

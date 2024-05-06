@@ -1,4 +1,4 @@
-public interface Presentaciones {
+public interface Prestaciones {
 
     public void calcularVacaciones();
     public void calcularBonificaciones();

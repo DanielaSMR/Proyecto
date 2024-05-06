@@ -11,7 +11,7 @@ import java.util.HashMap;
 //Añadir excepciones
 //Meter ficheros y Bases de datos
 
-public class GestorEmpleados {
+public class GestorEmpleados implements Serializable{
     public static ArrayList<Empleado> empleados = new ArrayList<>();
     public static HashMap<Integer,Empleado> ordEmpleados = new HashMap<Integer,Empleado>(); 
     
@@ -22,5 +22,24 @@ public class GestorEmpleados {
     public void eliminarEmpleado(String id){
 
     }
+
+    public void buscarEmpleado(String id){
+
+    }
+
+    public void listarEmpleados(){
+
+    }
+
+    public void guardarDatosEnFichero(){
+
+    }
+
+    public void cargarDatosDesdeFichero(){
+
+    }
+
+    //guardarDatosEnBD() y cargarDatosDesdeBD()
+
 
 }

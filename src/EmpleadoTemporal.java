@@ -1,4 +1,4 @@
-public class EmpleadoTemporal extends Empleado{
+public class EmpleadoTemporal extends Empleado implements Serializable{
     private String fechacontrato;
     private Integer duracioncontrato;
     
@@ -6,7 +6,7 @@ public class EmpleadoTemporal extends Empleado{
         super();
     }
 
-    public EmpleadoTemporal(String nombre,String apellido,int id,int salario,String fechacontrato, Integer duracioncontrato){
+    public EmpleadoTemporal(String nombre,String apellido,String id,int salario,String fechacontrato, Integer duracioncontrato){
         super(nombre, apellido, id, salario);
         this.fechacontrato = fechacontrato;
         this.duracioncontrato = duracioncontrato;
