@@ -7,9 +7,14 @@ public class EmpleadoTemporal extends Empleado implements Serializable{
     }
 
     public EmpleadoTemporal(String nombre,String apellido,String id,int salario,String fechacontrato, Integer duracioncontrato){
-        super(nombre, apellido, id, salario);
+        super(nombre, apellido,id, salario);
         this.fechacontrato = fechacontrato;
         this.duracioncontrato = duracioncontrato;
+    }
+
+    @Override
+    public void calcularPrestaciones(){
+
     }
 
     public String getFechacontrato() {

@@ -8,7 +8,7 @@ public abstract class Empleado implements Prestaciones,Serializable {
 
     }
 
-    public Empleado(String nombre, String apellido, String id, Integer salario) {
+    public Empleado(String nombre, String apellido,String id,Integer salario) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.id = id;
@@ -22,10 +22,17 @@ public abstract class Empleado implements Prestaciones,Serializable {
     }
 
     public void calcularBonificaciones(){
+        System.out.println((((salario*6)/6)*20)/100);
         
     }
 
     public void calcularVacaciones(){
+        int diasTrabajo = 22;
+        int mesesTrabajados = 6;
+        System.out.println(diasTrabajo * mesesTrabajados);
+    }
+
+    public void calcularPrestaciones(){
 
     }
 

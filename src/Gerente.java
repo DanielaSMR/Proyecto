@@ -12,6 +12,11 @@ public class Gerente extends Empleado implements Serializable{
         this.nivelJerarquico = nivelJerarquico;
     }
 
+    @Override
+    public void calcularPrestaciones(){
+
+    }
+
     public String getDepartamento() {
         return departamento;
     }
