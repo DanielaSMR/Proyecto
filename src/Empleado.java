@@ -1,14 +1,14 @@
-public abstract class Empleado implements Presentaciones {
+public abstract class Empleado implements Prestaciones,Serializable {
     private String nombre;
     private String apellido;
-    private Integer id;
+    private String id;
     private Integer salario;
 
     public Empleado() {
 
     }
 
-    public Empleado(String nombre, String apellido, Integer id, Integer salario) {
+    public Empleado(String nombre, String apellido,String id,Integer salario) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.id = id;
@@ -16,6 +16,60 @@ public abstract class Empleado implements Presentaciones {
 
     }
 
+    @Override
+    public String toString(){
+        return "";
+    }
+
+    public void calcularBonificaciones(){
+        System.out.println((((salario*6)/6)*20)/100);
+        
+    }
+
+    public void calcularVacaciones(){
+        int diasTrabajo = 22;
+        int mesesTrabajados = 6;
+        System.out.println(diasTrabajo * mesesTrabajados);
+    }
+
+    public void calcularPrestaciones(){
+
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Integer getSalario() {
+        return salario;
+    }
+
+    public void setSalario(Integer salario) {
+        this.salario = salario;
+    }
+
     
+    
+
     
 }
