@@ -18,11 +18,12 @@ public abstract class Empleado implements Prestaciones,Serializable {
 
     @Override
     public String toString(){
-        return "";
+        return  "Nombre: " + nombre + "Apellido: " + apellido + "ID del empleado: " + id + "Salario correspondiente: " + salario;
     }
 
     public void calcularBonificaciones(){
         System.out.println((((salario*6)/6)*20)/100);
+        System.out.println("Se calculo la bonificacion");
         
     }
 
@@ -30,11 +31,13 @@ public abstract class Empleado implements Prestaciones,Serializable {
         int diasTrabajo = 22;
         int mesesTrabajados = 6;
         System.out.println(diasTrabajo * mesesTrabajados);
+        System.out.println("Se calculo las vacaciones");
     }
 
     public void calcularPrestaciones(){
 
     }
+
 
     public String getNombre() {
         return nombre;

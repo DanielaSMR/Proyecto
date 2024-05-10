@@ -17,6 +17,10 @@ public class EmpleadoTemporal extends Empleado implements Serializable{
 
     }
 
+    public String toString(){
+        return "La fecha del contrato" + fechacontrato + "La duracion del contrato" + duracioncontrato;
+    }
+
     public String getFechacontrato() {
         return fechacontrato;
     }

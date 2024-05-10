@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class main {
 
     public static ArrayList<Empleado> empleados = new ArrayList<>();
-    public static HashMap<Integer,Empleado> ordEmpleados = new HashMap<Integer,Empleado>(); 
+    public static HashMap<String,Empleado> ordEmpleados = new HashMap<String,Empleado>(); 
     
     public static void main(String[] args) throws Exception{
         

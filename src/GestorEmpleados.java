@@ -33,20 +33,39 @@ public class GestorEmpleados implements Serializable{
         String apellido = IO.pedirTexto();
         System.out.println("Cual es la ID");
         String id = IO.pedirTexto();
+        try{
+            for(int i = 0;i < main.empleados.size();i++){
+                if (main.empleados.get(i).getId().equals(id)) {
+                    
+                }
+            }
+        }catch (Exception ex){
+
+        }
         System.out.println("Cual es el salario?");
         int salario = IO.pedirEntero();
         
         System.out.println("Sera 1-empleado temporal o 2-gerente?");
         String eleccion = IO.pedirTexto();
+
         if(eleccion.equals("1")){
+
             System.out.println("Dime la fecha del contrato");
             String fechaC = IO.pedirTexto();
             System.out.println("Dime la duracion del contrato");
             Integer duracionC = IO.pedirEntero();
             main.empleados.add(new EmpleadoTemporal(nombre, apellido,id,salario,fechaC,duracionC));
+            main.ordEmpleados.put(id, new EmpleadoTemporal(nombre, apellido,id,salario,fechaC,duracionC));
+
         }else if(eleccion.equals("2")){
+
             System.out.println("Dime el departamento");
-            
+            String depa = IO.pedirTexto();
+            System.out.println("Dime el nivel jerarquico");
+            int nivel = IO.pedirEntero();
+            main.empleados.add(new Gerente(nombre,apellido,id,salario,depa,nivel));
+            main.ordEmpleados.put(id, new EmpleadoTemporal(nombre, apellido,id,salario,depa,nivel));
+
         }
     }
 
