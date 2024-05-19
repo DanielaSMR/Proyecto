@@ -1,3 +1,6 @@
+import java.io.Serializable;
+
+
 public abstract class Empleado implements Prestaciones,Serializable {
     private String nombre;
     private String apellido;
@@ -64,10 +67,13 @@ public abstract class Empleado implements Prestaciones,Serializable {
         return salario;
     }
 
-    public void setSalario(Integer salario) {
+    public void setSalario(Integer salario) throws SalarioInvalidoException {
+        if (salario <= 0) {
+            throw new SalarioInvalidoException("El salario debe ser mayor que 0.");
+        }
         this.salario = salario;
-    }
-
+            
+    }  
     
     
 

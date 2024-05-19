@@ -1,3 +1,6 @@
+
+import java.io.Serializable;
+
 public class EmpleadoTemporal extends Empleado implements Serializable{
     private String fechacontrato;
     private Integer duracioncontrato;

@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 public class Gerente extends Empleado implements Serializable{
     private String departamento;
     private int nivelJerarquico;
