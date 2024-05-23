@@ -8,15 +8,15 @@ public class Gerente extends Empleado implements Serializable{
         super();
     }
 
-    public Gerente(String nombre,String apellido,String id,int salario,String departamento,int nivelJerarquico){
+    public Gerente(String nombre,String apellido,String id,int salario,String departamento,int nivelJerarquico) throws SalarioInvalidoException{
         super(nombre, apellido,id,salario);
         this.departamento = departamento;
         this.nivelJerarquico = nivelJerarquico;
     }
 
     @Override
-    public void calcularPrestaciones(){
-
+    public String toString(){
+        return super.toString() + " Departamento: " + departamento + " Nivel Jerarquico: " + nivelJerarquico;
     }
 
     public String getDepartamento() {

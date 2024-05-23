@@ -11,17 +11,18 @@ public abstract class Empleado implements Prestaciones,Serializable {
 
     }
 
-    public Empleado(String nombre, String apellido,String id,Integer salario) {
+    public Empleado(String nombre, String apellido,String id,Integer salario) throws SalarioInvalidoException {
         this.nombre = nombre;
         this.apellido = apellido;
         this.id = id;
         this.salario = salario;
+        setSalario(salario);
 
     }
 
     @Override
     public String toString(){
-        return "";
+        return "Nombre: " + nombre + " Apellido: " + apellido + " ID: " + id + " Salario: " + salario;
     }
 
     public void calcularBonificaciones(){
