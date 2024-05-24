@@ -1,3 +1,6 @@
+import java.io.Serializable;
+
+
 public abstract class Empleado implements Prestaciones,Serializable {
     private String nombre;
     private String apellido;
@@ -8,17 +11,18 @@ public abstract class Empleado implements Prestaciones,Serializable {
 
     }
 
-    public Empleado(String nombre, String apellido,String id,Integer salario) {
+    public Empleado(String nombre, String apellido,String id,Integer salario) throws SalarioInvalidoException {
         this.nombre = nombre;
         this.apellido = apellido;
         this.id = id;
         this.salario = salario;
+        setSalario(salario);
 
     }
 
     @Override
     public String toString(){
-        return  "Nombre: " + nombre + "Apellido: " + apellido + "ID del empleado: " + id + "Salario correspondiente: " + salario;
+        return "Nombre: " + nombre + " Apellido: " + apellido + " ID: " + id + " Salario: " + salario;
     }
 
     public void calcularBonificaciones(){
@@ -67,10 +71,13 @@ public abstract class Empleado implements Prestaciones,Serializable {
         return salario;
     }
 
-    public void setSalario(Integer salario) {
+    public void setSalario(Integer salario) throws SalarioInvalidoException {
+        if (salario <= 0) {
+            throw new SalarioInvalidoException("El salario debe ser mayor que 0.");
+        }
         this.salario = salario;
-    }
-
+            
+    }  
     
     
 

@@ -1,3 +1,6 @@
+
+import java.io.Serializable;
+
 public class EmpleadoTemporal extends Empleado implements Serializable{
     private String fechacontrato;
     private Integer duracioncontrato;
@@ -6,15 +9,15 @@ public class EmpleadoTemporal extends Empleado implements Serializable{
         super();
     }
 
-    public EmpleadoTemporal(String nombre,String apellido,String id,int salario,String fechacontrato, Integer duracioncontrato){
+    public EmpleadoTemporal(String nombre,String apellido,String id,int salario,String fechacontrato, Integer duracioncontrato) throws SalarioInvalidoException{
         super(nombre, apellido,id, salario);
         this.fechacontrato = fechacontrato;
         this.duracioncontrato = duracioncontrato;
     }
 
     @Override
-    public void calcularPrestaciones(){
-
+    public String toString(){
+        return super.toString() + "Fecha contrato: " + fechacontrato + "Duracion Contrato: " + duracioncontrato; 
     }
 
     public String toString(){
