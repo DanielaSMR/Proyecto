@@ -19,9 +19,6 @@ public class Gerente extends Empleado implements Serializable{
         return super.toString() + " Departamento: " + departamento + " Nivel Jerarquico: " + nivelJerarquico;
     }
 
-    public String toString(){
-        return "Pertenece al departamento: " + departamento + "Su nivel jerarquico" + nivelJerarquico;
-    }
 
     public String getDepartamento() {
         return departamento;

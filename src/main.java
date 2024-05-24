@@ -26,13 +26,13 @@ public class main {
             System.out.println("Error al registrar el driver de PostgreSQL: " + ex);
         }
 
-        // Connection connection = null;
-        // // Database connect
-        // // Conectamos con la base de datos
-        // connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mati", "mati", "mati2");
-        // //connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "a");
-        // Statement st = connection.createStatement();
-        // connection.setAutoCommit(false);
+        Connection connection = null;
+        // Database connect
+        // Conectamos con la base de datos
+        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mati", "mati", "mati2");
+        //connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "a");
+        Statement st = connection.createStatement();
+        connection.setAutoCommit(false);
 
         int eleccion;
         String id;
@@ -69,7 +69,11 @@ public class main {
                     GestorEmpleados.listarEmpleados();
                     System.out.println("Dime la id del empleado buscado");
                     id = IO.pedirTexto();
+                    try{
                     GestorEmpleados.buscarEmpleado(id);
+                    }catch(EmpleadoNoEncontrado ene){
+                        System.err.println(ene.getMessage());
+                    }
                     break;
                 case 4:
                     GestorEmpleados.listarEmpleados();

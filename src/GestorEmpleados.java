@@ -81,36 +81,35 @@ public class GestorEmpleados implements Serializable{
     public static void eliminarEmpleado(String id) throws EmpleadoNoEncontrado{
         boolean encontrado = false;
         Iterator<Empleado> iterator = main.empleados.iterator();//Recorre el array
-        while (iterator.hasNext()) {
+        while (iterator.hasNext() && !encontrado) {
             Empleado empleado = iterator.next();
-            if (empleado.getId().equals(id)) {
+            if (empleado.getId().matches(id)) {
                 System.out.println("Se eliminará el empleado " + empleado.getNombre());
                 iterator.remove(); // Eliminar el empleado usando el iterador
                 main.ordEmpleados.remove(id);
                 encontrado = true;
             }
 
-            if(!encontrado){//Excepcion personalizada
-                throw new EmpleadoNoEncontrado("Empleado no encontrado");
-            }
+            
+        }
+
+        if(!encontrado){//Excepcion personalizada
+            throw new EmpleadoNoEncontrado("Empleado no encontrado");
         }
     }
 
-    public static void buscarEmpleado(String id){
-        listarEmpleados();
-        System.out.println("Dime el ID del empleado");
-        String emple = IO.pedirTexto();
+    public static void buscarEmpleado(String id)throws EmpleadoNoEncontrado{
         boolean encontrado = false;
         try{
             for (String i : main.ordEmpleados.keySet()){
-                if(i.equals(emple)){
+                if(i.equals(id)){
                     System.out.println(main.ordEmpleados.get(i));
                     encontrado = true;
                 }
             }
 
             if(!encontrado){//Otra excepcion con mensaje personalizado
-                throw new Exception("Empleado no encontrado");
+                throw new EmpleadoNoEncontrado("Empleado no encontrado");//arreglar
             }
             
         }catch(Exception ex){
