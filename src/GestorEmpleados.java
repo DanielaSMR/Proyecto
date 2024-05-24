@@ -1,13 +1,9 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Scanner;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -125,7 +121,7 @@ public class GestorEmpleados implements Serializable{
 
     public static void guardarDatosEnFichero() throws FileNotFoundException, IOException{
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(main.EMPLEADOS_ARCHIVO))){
-            oos.writeObject(main.empleados);
+            oos.writeObject(main.empleados);//Falta el hasmap
             System.out.println("Empleados serializados correctamente");
         }catch(Exception ex){
             ex.printStackTrace();
@@ -134,11 +130,73 @@ public class GestorEmpleados implements Serializable{
 
     public static void cargarDatosDesdeFichero(String nombreFichero) throws FileNotFoundException, IOException{
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nombreFichero))) {
-            main.empleados = (ArrayList<Empleado>) ois.readObject();
+            main.empleados = (ArrayList<Empleado>) ois.readObject();//falta el hashmap
             System.out.println("Empleados deserializados correctamente");
         } catch(Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    public static void guardarEnDB(Statement st){
+
+        try {
+            for(Empleado emple : main.empleados){
+            //Comprobar si existe el empleado
+            ResultSet rs = st.executeQuery("SELECT id FROM empleado WHERE id = '" + emple.getId() + "'");
+            if (rs.next()) {
+                System.out.println("El empleado" + emple.getNombre() + "ya existe en la base de datos.");
+            }else {
+                // Insertar nuevo empleado si el DNI no existe
+                String sentenciaSql = "INSERT INTO public.empleado(id, nombre, apellido, salario) VALUES (?, ?, ?, ?);";
+                PreparedStatement ps = st.getConnection().prepareStatement(sentenciaSql);
+                ps.setString(1, emple.getId()) ;//parametro 1 del Insert
+                ps.setString(2, emple.getNombre());//paranetro 2 del Insert
+                ps.setString(3, emple.getApellido());
+                ps.setInt(4, emple.getSalario());
+
+                if(emple instanceof Gerente){
+                    String sentenciaSql2 = "INSERT INTO public.gerente(departamento, niveljerarquico, id) VALUES (?, ?, ?);";
+                    PreparedStatement ps2 = st.getConnection().prepareStatement(sentenciaSql2);
+                    ps.setString(1, ((Gerente) emple).getDepartamento()) ;//parametro 1 del Insert
+                    ps.setInt(2,((Gerente) emple).getNivelJerarquico());//paranetro 2 del Insert
+                    ps.setString(3,  emple.getId());
+                    int filasAfectadas = ps2.executeUpdate();
+                    if (filasAfectadas > 0) {
+                        System.out.println("1parte Se guardo el Gerente sin problema.");
+                        st.getConnection().commit();
+                    } else {
+                        System.out.println("No se pudo guardar el Gerente.");
+                    }
+                }
+                if(emple instanceof EmpleadoTemporal){
+                    String sentenciaSql3 = "INSERT INTO public.empleadotemporal(fechacontrato, duracioncontrato, id) VALUES (?, ?, ?);";
+                    PreparedStatement ps3 = st.getConnection().prepareStatement(sentenciaSql3);
+                    ps.setString(1, ((EmpleadoTemporal) emple).getFechacontrato()) ;//parametro 1 del Insert
+                    ps.setInt(2,((EmpleadoTemporal) emple).getDuracioncontrato());//paranetro 2 del Insert
+                    ps.setString(3,  emple.getId());
+                    // int filasAfectadas = ps3.executeUpdate(); //da error
+                    // if (filasAfectadas > 0) {
+                    //     System.out.println("1parte Se guardo el Gerente sin problema.");
+                    //     st.getConnection().commit();
+                    // } else {
+                    //     System.out.println("No se pudo guardar el Gerente.");
+                    // }
+                }
+
+                int filasAfectadas = ps.executeUpdate();
+                if (filasAfectadas == main.empleados.size()) {
+                    System.out.println("1parte Se guardo en BD sin problema.");
+                    st.getConnection().commit();
+                } else {
+                    System.out.println("No se pudo guardar en BD.");
+                }
+                ps.close();
+            }
+            rs.close();
+            }
+          } catch (SQLException sqle) {
+            sqle.printStackTrace();
+          }
     }
 
 

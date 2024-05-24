@@ -29,7 +29,7 @@ public class main {
         Connection connection = null;
         // Database connect
         // Conectamos con la base de datos
-        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mati", "mati", "mati2");
+        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mati2", "mati", "mati");
         //connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "a");
         Statement st = connection.createStatement();
         connection.setAutoCommit(false);
@@ -85,7 +85,7 @@ public class main {
                     GestorEmpleados.cargarDatosDesdeFichero(EMPLEADOS_ARCHIVO);
                     break;
                 case 7:
-                    //Añadir base de datos
+                    GestorEmpleados.guardarEnDB(st);
                     break;
                 case 8:
                     

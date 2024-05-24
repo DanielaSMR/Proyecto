@@ -5,7 +5,7 @@ public abstract class Empleado implements Prestaciones,Serializable {
     private String nombre;
     private String apellido;
     private String id;
-    private Integer salario;
+    private int salario;
 
     public Empleado() {
 
