@@ -35,10 +35,10 @@ public class GestorEmpleados implements Serializable{
 
     public static void añadirEmpleado() throws Exception{
 
-        Empleado a1 = new EmpleadoTemporal("Teresa", "Garcia", "12AB", 100, "12/04/2024", 3);
-        Empleado a2 = new EmpleadoTemporal("Pepe", "Garcia", "13AB", 200, "12/04/2024", 3);
-        Empleado b1 = new Gerente("Nacho", "Perez", "14AB", 350, "Contabilidad", 3);
-        Empleado b2 = new Gerente("Sara", "Perez", "15AB", 400, "Contabilidad", 2);
+        Empleado a1 = new EmpleadoTemporal("Teresa", "Garcia", "2AB", 100, "12/04/2024", 3);
+        Empleado a2 = new EmpleadoTemporal("Pepe", "Garcia", "3AB", 200, "12/04/2024", 2);
+        Empleado b1 = new Gerente("Nacho", "Perez", "4AB", 350, "Contabilidad", 3);
+        Empleado b2 = new Gerente("Sara", "Perez", "5AB", 400, "Contabilidad", 4);
         agregarEmpleado(a1);
         agregarEmpleado(a2);
         agregarEmpleado(b1);
@@ -138,7 +138,7 @@ public class GestorEmpleados implements Serializable{
     }
 
     public static void guardarEnDB(Statement st){
-
+        int filasAfectadas3 = 0;
         try {
             for(Empleado emple : main.empleados){
             //Comprobar si existe el empleado
@@ -148,56 +148,107 @@ public class GestorEmpleados implements Serializable{
             }else {
                 // Insertar nuevo empleado si el DNI no existe
                 String sentenciaSql = "INSERT INTO public.empleado(id, nombre, apellido, salario) VALUES (?, ?, ?, ?);";
+
                 PreparedStatement ps = st.getConnection().prepareStatement(sentenciaSql);
                 ps.setString(1, emple.getId()) ;//parametro 1 del Insert
                 ps.setString(2, emple.getNombre());//paranetro 2 del Insert
                 ps.setString(3, emple.getApellido());
                 ps.setInt(4, emple.getSalario());
 
+                filasAfectadas3 = ps.executeUpdate();
+                if (filasAfectadas3 > 0) {
+                    System.out.println("Se guardo en BD sin problema.");
+                    st.getConnection().commit();
+                } else {
+                    System.out.println("No se pudo guardar en BD.");
+                }
+                
+
                 if(emple instanceof Gerente){
-                    String sentenciaSql2 = "INSERT INTO public.gerente(departamento, niveljerarquico, id) VALUES (?, ?, ?);";
+                    String sentenciaSql2 = "INSERT INTO public.gerente(niveljerarquico, id, departamento) VALUES (?, ?, ?);";
                     PreparedStatement ps2 = st.getConnection().prepareStatement(sentenciaSql2);
-                    ps.setString(1, ((Gerente) emple).getDepartamento()) ;//parametro 1 del Insert
-                    ps.setInt(2,((Gerente) emple).getNivelJerarquico());//paranetro 2 del Insert
-                    ps.setString(3,  emple.getId());
+                    ps2.setInt(1,((Gerente) emple).getNivelJerarquico());//paranetro 2 del Insert
+                    ps2.setString(2,  emple.getId());
+                    ps2.setString(3, ((Gerente) emple).getDepartamento()) ;//parametro 1 del Insert
+
                     int filasAfectadas = ps2.executeUpdate();
                     if (filasAfectadas > 0) {
                         System.out.println("1parte Se guardo el Gerente sin problema.");
                         st.getConnection().commit();
                     } else {
-                        System.out.println("No se pudo guardar el Gerente.");
+                         System.out.println("No se pudo guardar el Gerente.");
                     }
                 }
                 if(emple instanceof EmpleadoTemporal){
-                    String sentenciaSql3 = "INSERT INTO public.empleadotemporal(fechacontrato, duracioncontrato, id) VALUES (?, ?, ?);";
+                    String sentenciaSql3 = "INSERT INTO public.empleadotemporal(duracioncontrato, id, fechacontrato)  VALUES (?, ?, ?);";
                     PreparedStatement ps3 = st.getConnection().prepareStatement(sentenciaSql3);
-                    ps.setString(1, ((EmpleadoTemporal) emple).getFechacontrato()) ;//parametro 1 del Insert
-                    ps.setInt(2,((EmpleadoTemporal) emple).getDuracioncontrato());//paranetro 2 del Insert
-                    ps.setString(3,  emple.getId());
-                    // int filasAfectadas = ps3.executeUpdate(); //da error
-                    // if (filasAfectadas > 0) {
-                    //     System.out.println("1parte Se guardo el Gerente sin problema.");
-                    //     st.getConnection().commit();
-                    // } else {
-                    //     System.out.println("No se pudo guardar el Gerente.");
-                    // }
+                    ps3.setInt(1, ((EmpleadoTemporal) emple).getDuracioncontrato());//paranetro 2 del Insert
+                    ps3.setString(2,  emple.getId());
+                    ps3.setString(3, ((EmpleadoTemporal) emple).getFechacontrato());
+                    int filasAfectadas = ps3.executeUpdate(); //da error
+                    if (filasAfectadas > 0) {
+                       System.out.println("1parte Se guardo el empleado temporal sin problema.");
+                       st.getConnection().commit();
+                    } else {
+                       System.out.println("No se pudo guardar el Gerente.");
+                    }
                 }
 
-                int filasAfectadas = ps.executeUpdate();
-                if (filasAfectadas == main.empleados.size()) {
-                    System.out.println("1parte Se guardo en BD sin problema.");
-                    st.getConnection().commit();
-                } else {
-                    System.out.println("No se pudo guardar en BD.");
-                }
                 ps.close();
             }
             rs.close();
             }
+           
           } catch (SQLException sqle) {
             sqle.printStackTrace();
           }
     }
 
+    public static void cargarDatosDesdeBD(Statement st) throws SalarioInvalidoException{
+        main.empleados.clear();
+        main.ordEmpleados.clear();
+        try {
+                String sentenciaSql = "	SELECT * FROM public.empleado INNER JOIN public.empleadotemporal USING(id);";
+                PreparedStatement sentencia = null;
+                ResultSet resultado = null;
+                
+                try {
+                sentencia = st.getConnection().prepareStatement(sentenciaSql);
+                resultado = sentencia.executeQuery();
+                while (resultado.next()) {
+                    Empleado empleadoCarga = new EmpleadoTemporal(null, null, null, 500, null, null);
+                    empleadoCarga.setNombre(resultado.getString("nombre"));
+                    empleadoCarga.setApellido(resultado.getString("apellido"));
+                    empleadoCarga.setId(resultado.getString("id"));
+                    empleadoCarga.setSalario(resultado.getInt("salario"));
+                    ((EmpleadoTemporal)empleadoCarga).setFechacontrato(resultado.getString("fechacontrato"));
+                    ((EmpleadoTemporal)empleadoCarga).setDuracioncontrato(resultado.getInt("duracioncontrato"));
+
+
+                    try{
+                        main.empleados.add(empleadoCarga);
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+
+                    try{
+                        main.ordEmpleados.put(resultado.getString("id"), empleadoCarga);
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
+
+
+                }catch(SQLException sqle){
+                    sqle.printStackTrace();
+                }
+                
+                System.out.println("Empleados cargados de la base de datos correctamente");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
 
 }

@@ -88,7 +88,7 @@ public class main {
                     GestorEmpleados.guardarEnDB(st);
                     break;
                 case 8:
-                    
+                    GestorEmpleados.cargarDatosDesdeBD(st);
                     break;        
                 case 9:
                     System.out.println("Adios");
