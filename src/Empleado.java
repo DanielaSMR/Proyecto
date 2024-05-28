@@ -1,5 +1,12 @@
 import java.io.Serializable;
 
+/**
+* Empleado
+* Una clase abstracta que contendra los datos generales que tendran Gerente y Empleado Temporal
+* Implementara Prestaciones(la cual es una interfaz) y Serializable
+* @author Daniela Perez / Empresa
+* @version 0.1, 
+*/
 
 public abstract class Empleado implements Prestaciones,Serializable {
     private String nombre;

@@ -1,6 +1,11 @@
 
 import java.io.Serializable;
-
+/**
+* EmpleadoTemporal
+* La clase EmpleadoTemporal que extendera de Empleado
+* @author Daniela Perez / Empresa
+* @version 0.1, 
+*/
 public class EmpleadoTemporal extends Empleado implements Serializable{
     private String fechacontrato;
     private Integer duracioncontrato;

@@ -1,5 +1,10 @@
 import java.io.Serializable;
-
+/**
+* Gerente 
+* La clase Gerente que extendera de Empleado
+* @author Daniela Perez / Empresa
+* @version 0.1, 
+*/
 public class Gerente extends Empleado implements Serializable{
     private String departamento;
     private int nivelJerarquico;
