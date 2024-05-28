@@ -79,7 +79,7 @@ public class main {
                     GestorEmpleados.listarEmpleados();
                     break;
                 case 5:
-                    GestorEmpleados.guardarDatosEnFichero();
+                    GestorEmpleados.guardarDatosEnFichero(EMPLEADOS_ARCHIVO);
                     break; 
                 case 6:
                     GestorEmpleados.cargarDatosDesdeFichero(EMPLEADOS_ARCHIVO);

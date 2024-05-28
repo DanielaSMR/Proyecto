@@ -76,9 +76,12 @@ public class GestorEmpleados implements Serializable{
 
     public static void eliminarEmpleado(String id) throws EmpleadoNoEncontrado{
         boolean encontrado = false;
+
         Iterator<Empleado> iterator = main.empleados.iterator();//Recorre el array
+
         while (iterator.hasNext() && !encontrado) {
             Empleado empleado = iterator.next();
+
             if (empleado.getId().matches(id)) {
                 System.out.println("Se eliminará el empleado " + empleado.getNombre());
                 iterator.remove(); // Eliminar el empleado usando el iterador
@@ -119,9 +122,10 @@ public class GestorEmpleados implements Serializable{
         }
     }
 
-    public static void guardarDatosEnFichero() throws FileNotFoundException, IOException{
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(main.EMPLEADOS_ARCHIVO))){
-            oos.writeObject(main.empleados);//Falta el hasmap
+    public static void guardarDatosEnFichero(String nombreFichero) throws FileNotFoundException, IOException{
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nombreFichero))){
+            oos.writeObject(main.empleados);
+            oos.writeObject(main.ordEmpleados);
             System.out.println("Empleados serializados correctamente");
         }catch(Exception ex){
             ex.printStackTrace();
@@ -130,7 +134,8 @@ public class GestorEmpleados implements Serializable{
 
     public static void cargarDatosDesdeFichero(String nombreFichero) throws FileNotFoundException, IOException{
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nombreFichero))) {
-            main.empleados = (ArrayList<Empleado>) ois.readObject();//falta el hashmap
+            main.empleados = (ArrayList<Empleado>) ois.readObject();
+            main.ordEmpleados = (HashMap<String, Empleado>) ois.readObject();
             System.out.println("Empleados deserializados correctamente");
         } catch(Exception ex){
             ex.printStackTrace();
