@@ -35,42 +35,42 @@ public class GestorEmpleados implements Serializable{
 
     public static void añadirEmpleado() throws Exception{
 
-        Empleado a1 = new EmpleadoTemporal("Teresa", "Garcia", "2AB", 100, "12/04/2024", 3);
-        Empleado a2 = new EmpleadoTemporal("Pepe", "Garcia", "3AB", 200, "12/04/2024", 2);
-        Empleado b1 = new Gerente("Nacho", "Perez", "4AB", 350, "Contabilidad", 3);
-        Empleado b2 = new Gerente("Sara", "Perez", "5AB", 400, "Contabilidad", 4);
-        agregarEmpleado(a1);
-        agregarEmpleado(a2);
-        agregarEmpleado(b1);
-        agregarEmpleado(b2);
+        // Empleado a1 = new EmpleadoTemporal("Teresa", "Garcia", "2AB", 100, "12/04/2024", 3);
+        // Empleado a2 = new EmpleadoTemporal("Pepe", "Garcia", "3AB", 200, "12/04/2024", 2);
+        // Empleado b1 = new Gerente("Nacho", "Perez", "4AB", 350, "Contabilidad", 3);
+        // Empleado b2 = new Gerente("Sara", "Perez", "5AB", 400, "Contabilidad", 4);
+        // agregarEmpleado(a1);
+        // agregarEmpleado(a2);
+        // agregarEmpleado(b1);
+        // agregarEmpleado(b2);
         
-        // System.out.println("Como se llama el nuevo empleado?");
-        // String nombre = IO.pedirTexto();
-        // System.out.println("Cual es el apellido?");
-        // String apellido = IO.pedirTexto();
-        // System.out.println("Cual es la ID");
-        // String id = IO.pedirTexto();
-        // System.out.println("Cual es el salario?");
-        // int salario = IO.pedirEntero();
+        System.out.println("Como se llama el nuevo empleado?");
+        String nombre = IO.pedirTexto();
+        System.out.println("Cual es el apellido?");
+        String apellido = IO.pedirTexto();
+        System.out.println("Cual es la ID");
+        String id = IO.pedirTexto();
+        System.out.println("Cual es el salario?");
+        int salario = IO.pedirEntero();
         
         
-        // System.out.println("Sera 1-empleado temporal o 2-gerente?");
-        // String eleccion = IO.pedirTexto();
-        // if(eleccion.equals("1")){
-        //     System.out.println("Dime la fecha del contrato");
-        //     String fechaC = IO.pedirTexto();
-        //     System.out.println("Dime la duracion del contrato");
-        //     Integer duracionC = IO.pedirEntero();
-        //     Empleado nuevoEmpleado = new EmpleadoTemporal(nombre,apellido,id,salario,fechaC,duracionC);
-        //     agregarEmpleado(nuevoEmpleado);
-        // }else if(eleccion.equals("2")){
-        //     System.out.println("Dime el departamento");
-        //     String depa = IO.pedirTexto();
-        //     System.out.println("Dime el nivel jerarquico");
-        //     int nivel = IO.pedirEntero();
-        //     Empleado nuevoEmpleado = new EmpleadoTemporal(nombre,apellido,id,salario,depa,nivel);
-        //     agregarEmpleado(nuevoEmpleado);
-        // }
+        System.out.println("Sera 1-empleado temporal o 2-gerente?");
+        String eleccion = IO.pedirTexto();
+        if(eleccion.equals("1")){
+            System.out.println("Dime la fecha del contrato");
+            String fechaC = IO.pedirTexto();
+            System.out.println("Dime la duracion del contrato");
+            Integer duracionC = IO.pedirEntero();
+            Empleado nuevoEmpleado = new EmpleadoTemporal(nombre,apellido,id,salario,fechaC,duracionC);
+            agregarEmpleado(nuevoEmpleado);
+        }else if(eleccion.equals("2")){
+            System.out.println("Dime el departamento");
+            String depa = IO.pedirTexto();
+            System.out.println("Dime el nivel jerarquico");
+            int nivel = IO.pedirEntero();
+            Empleado nuevoEmpleado = new EmpleadoTemporal(nombre,apellido,id,salario,depa,nivel);
+            agregarEmpleado(nuevoEmpleado);
+        }
         
     }
 
