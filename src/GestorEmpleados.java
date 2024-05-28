@@ -248,6 +248,47 @@ public class GestorEmpleados implements Serializable{
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        try {
+            String sentenciaSql = "	SELECT * FROM public.empleado INNER JOIN public.gerente USING(id);";
+            PreparedStatement sentencia = null;
+            ResultSet resultado = null;
+            
+            try {
+            sentencia = st.getConnection().prepareStatement(sentenciaSql);
+            resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                Empleado gerenteCarga = new Gerente(null,null,null,500,null,0);
+                gerenteCarga.setNombre(resultado.getString("nombre"));
+                gerenteCarga.setApellido(resultado.getString("apellido"));
+                gerenteCarga.setId(resultado.getString("id"));
+                gerenteCarga.setSalario(resultado.getInt("salario"));
+                ((Gerente)gerenteCarga).setDepartamento(resultado.getString("departamento"));
+                ((Gerente)gerenteCarga).setNivelJerarquico(resultado.getInt("niveljerarquico"));
+
+
+                try{
+                    main.empleados.add(gerenteCarga);
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+
+                try{
+                    main.ordEmpleados.put(resultado.getString("id"), gerenteCarga);
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+
+            }catch(SQLException sqle){
+                sqle.printStackTrace();
+            }
+            
+            System.out.println("Empleados cargados de la base de datos correctamente");
+
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
 
     }
 
