@@ -26,6 +26,8 @@ import java.util.*;
 //Meter ficheros y Bases de datos
 
 public class GestorEmpleados implements Serializable{
+    public static ArrayList<Empleado> empleModi = new ArrayList<Empleado>();
+
     
     public static void agregarEmpleado(Empleado empleado) throws Exception{
         main.ordEmpleados.put(empleado.getId(), empleado);
@@ -35,11 +37,11 @@ public class GestorEmpleados implements Serializable{
 
     public static void añadirEmpleado() throws Exception{
 
-        // Empleado a1 = new EmpleadoTemporal("Teresa", "Garcia", "2AB", 100, "12/04/2024", 3);
+        Empleado a1 = new EmpleadoTemporal("Teresa", "Garcia", "2AB", 100, "12/04/2024", 3);
         // Empleado a2 = new EmpleadoTemporal("Pepe", "Garcia", "3AB", 200, "12/04/2024", 2);
         // Empleado b1 = new Gerente("Nacho", "Perez", "4AB", 350, "Contabilidad", 3);
         // Empleado b2 = new Gerente("Sara", "Perez", "5AB", 400, "Contabilidad", 4);
-        // agregarEmpleado(a1);
+        agregarEmpleado(a1);
         // agregarEmpleado(a2);
         // agregarEmpleado(b1);
         // agregarEmpleado(b2);
@@ -132,6 +134,25 @@ public class GestorEmpleados implements Serializable{
         }
     }
 
+
+    public static void modificarNombre(String id) throws EmpleadoNoEncontrado{
+        buscarEmpleado(id);
+        System.out.println("Que usuario quieres modificar");
+        String usu = "a1";
+
+        System.out.println("Dime el nuevo nombre");
+        String nombre = "Carlos";
+
+        for(Empleado emple : main.empleados){
+            if(emple.getNombre().equals(usu)){
+                emple.setNombre(nombre);
+                empleModi.add(emple);
+            }
+        }
+    }
+
+
+
     public static void cargarDatosDesdeFichero(String nombreFichero) throws FileNotFoundException, IOException{
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nombreFichero))) {
             main.empleados = (ArrayList<Empleado>) ois.readObject();
@@ -201,7 +222,25 @@ public class GestorEmpleados implements Serializable{
 
                 ps.close();
             }
+
+            
             rs.close();
+            }
+            //Actualizar solo los que se han modificado
+            for(Empleado emple2 : empleModi){
+                ResultSet rs = st.executeQuery("SELECT * FROM public.empleado INNER JOIN public.empleadotemporal USING(id) WHERE id = '" + emple2.getId() + "';");
+                String sentenciaSQL = "UPDATE public.empleado SET nombre = ?, apellido = ? WHERE id = '" + emple2.getId() + "';";
+                PreparedStatement ps = st.getConnection().prepareStatement(sentenciaSQL);
+                ps.setString(1, emple2.getNombre());
+                ps.setString(2, emple2.getApellido()) ;
+
+                if(emple2 instanceof EmpleadoTemporal){
+                    sentenciaSQL = "UPDATE public.empleadotemporal SET duracioncontrato = ?, fechacontrato = ? WHERE id = '" + emple2.getId() + "';";
+                    ps = st.getConnection().prepareStatement(sentenciaSQL);
+                    ps.setInt(1, ((EmpleadoTemporal)emple2).getDuracioncontrato());
+                    ps.setString(2, emple2.getApellido()) ;
+                }
+                
             }
            
           } catch (SQLException sqle) {
@@ -241,6 +280,16 @@ public class GestorEmpleados implements Serializable{
                     }catch(Exception ex){
                         ex.printStackTrace();
                     }
+                //Metodo distinto para no vaciar el arrayList
+                    for(Empleado emple : empleModi){
+                        sentenciaSql = "SELECT * FROM public.empleado INNER JOIN public.empleadotemporal USING(id) WHERE id = '" + emple.getId() + "';";
+                        sentencia = st.getConnection().prepareStatement(sentenciaSql);
+                        resultado = sentencia.executeQuery();
+                        emple.setNombre(resultado.getString("nombre"));
+
+                    }
+                
+                
                 }
 
 
