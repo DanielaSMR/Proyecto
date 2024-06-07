@@ -15,6 +15,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.*;
 
+import javax.tools.FileObject;
+
 /**
 * GestorEmpleados
 * Donde se gestiona todos los cambios que haremos en los empleados
@@ -132,25 +134,15 @@ public class GestorEmpleados implements Serializable{
         }catch(Exception ex){
             ex.printStackTrace();
         }
-    }
 
-
-    public static void modificarNombre(String id) throws EmpleadoNoEncontrado{
-        buscarEmpleado(id);
-        System.out.println("Que usuario quieres modificar");
-        String usu = "a1";
-
-        System.out.println("Dime el nuevo nombre");
-        String nombre = "Carlos";
-
-        for(Empleado emple : main.empleados){
-            if(emple.getNombre().equals(usu)){
-                emple.setNombre(nombre);
-                empleModi.add(emple);
-            }
+        try(FileOutputStream fos = new FileOutputStream(nombreFichero);//MC
+            ObjectOutputStream oos = new ObjectOutputStream(fos)){
+                oos.writeObject(main.empleados);
+                oos.writeObject(main.ordEmpleados);
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
     }
-
 
 
     public static void cargarDatosDesdeFichero(String nombreFichero) throws FileNotFoundException, IOException{
@@ -161,6 +153,15 @@ public class GestorEmpleados implements Serializable{
         } catch(Exception ex){
             ex.printStackTrace();
         }
+
+        try (FileInputStream fis = new FileInputStream(nombreFichero);//Mirar en casa
+            ObjectInputStream ois = new ObjectInputStream(fis)){
+            main.empleados = (ArrayList<Empleado>) ois.readObject();
+            main.ordEmpleados = (HashMap<String, Empleado>) ois.readObject();
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+
     }
 
     public static void guardarEnDB(Statement st){
